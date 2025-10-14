@@ -1,16 +1,20 @@
-use rdev::{self, Event, grab};
+use rdev::{self, Event, listen};
 
 fn main() {
     //if let Err(err) = grab(callback) {
     //    println!("{:?}", err)
     //};
 
-    match grab(callback) {
+    match listen(callback) {
         Ok(key) => println!("{:?}", key),
         Err(e) => println!("{:?}", e),
     }
 }
 
-fn callback(event: Event) -> Option<Event> {
-    Some(event)
+fn callback(event: Event) {
+    println!("My callback {:?}", event);
+    match event.name {
+        Some(string) => println!("User wrote {:?}", string),
+        None => (),
+    }
 }
